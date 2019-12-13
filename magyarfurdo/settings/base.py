@@ -114,7 +114,7 @@ else:
             'PORT': 5432,
             'NAME': dbname,
             'USER': dbname,
-            'PASSWORD': config.get('main', 'DB_PASSWORD'),
+            'PASSWORD': os.environ.get('MZ_DB_PASSWORD') or config.get('main', 'DB_PASSWORD'),
         }
     }
 

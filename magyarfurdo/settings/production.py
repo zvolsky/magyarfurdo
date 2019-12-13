@@ -1,3 +1,4 @@
+import os
 from configparser import RawConfigParser
 
 from .base import *
@@ -9,9 +10,10 @@ config.read('/etc/django/magyarfurdo/env.ini')
 
 DEBUG = False
 
-SECRET_KEY = config.get('main', 'SECRET_KEY')
+SECRET_KEY = os.environ.get('MZ_SECRET_KEY') or config.get('main', 'SECRET_KEY')
 
-ALLOWED_HOSTS = config.get('main', 'ALLOWED_HOSTS').replace(',', '').replace(';', '').split()
+ALLOWED_HOSTS = (os.environ.get('MZ_ALLOWED_HOSTS') or config.get('main', 'ALLOWED_HOSTS')
+                 ).replace(',', ' ').replace(';', ' ').split()
 
 X_FRAME_OPTIONS = 'DENY'
 SECURE_HSTS_SECONDS = 300
