@@ -1,0 +1,7 @@
+psycopg2
+django==2.2
+wagtail
+
+ipython
+django-extensions
+django-debug-toolbar
