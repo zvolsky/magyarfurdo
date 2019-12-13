@@ -10,15 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from configparser import RawConfigParser
+
+
+# Basic paths
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+# secret settings
+# https://stackoverflow.com/questions/44693485/where-do-i-set-environment-variables-for-django (Braden Holt)
+config = RawConfigParser()
+config.read('/etc/django/magyarfurdo/env.ini')
 
 
 # Application definition
@@ -109,7 +114,7 @@ else:
             'PORT': 5432,
             'NAME': dbname,
             'USER': dbname,
-            'PASSWORD': os.environ.get('MZ_DB_PASSWORD'),
+            'PASSWORD': config.get('main', 'DB_PASSWORD'),
         }
     }
 

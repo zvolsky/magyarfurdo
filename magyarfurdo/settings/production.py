@@ -1,13 +1,17 @@
-import os
+from configparser import RawConfigParser
 
 from .base import *
 
+# https://stackoverflow.com/questions/44693485/where-do-i-set-environment-variables-for-django (Braden Holt)
+config = RawConfigParser()
+config['DEFAULT'] = {'ALLOWED_HOSTS': '*'}
+config.read('/etc/django/magyarfurdo/env.ini')
 
 DEBUG = False
 
-SECRET_KEY = os.environ.get('MZ_SECRET_KEY')
+SECRET_KEY = config.get('main', 'SECRET_KEY')
 
-ALLOWED_HOSTS = os.environ.get('MZ_ALLOWED_HOSTS', '*').replace(',', '').replace(';', '').split()
+ALLOWED_HOSTS = config.get('main', 'ALLOWED_HOSTS').replace(',', '').replace(';', '').split()
 
 X_FRAME_OPTIONS = 'DENY'
 SECURE_HSTS_SECONDS = 300
