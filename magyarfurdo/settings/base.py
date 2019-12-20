@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # secret settings
 # https://stackoverflow.com/questions/44693485/where-do-i-set-environment-variables-for-django (Braden Holt)
 config = RawConfigParser()
+config['DEFAULT'] = {'SQLITE': False}
 config.read('/etc/django/magyarfurdo/env.ini')
 
 
@@ -97,7 +98,8 @@ WSGI_APPLICATION = 'magyarfurdo.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 dbname = __package__.rsplit('.')[-2]
-if os.environ.get('MZ_SQLITE'):
+# postgres: missing or SQLITE=   ; sqlite: SQLITE=True, Yes, atp.
+if os.environ.get('MZ_SQLITE') or config.get('main', 'SQLITE'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
